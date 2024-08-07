@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -12,45 +11,33 @@ public class Main {
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         int M = Integer.parseInt(st.nextToken());
-        HashSet set = new HashSet();
+        int S = 0;
 
-        String n;
+        int n;
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             switch (st.nextToken()) {
                 case "add":
-                    n = st.nextToken();
-                    if(!set.contains(n))
-                        set.add(n);
+                    n = Integer.parseInt(st.nextToken());
+                    S |= (1 << n);
                     break;
                 case "remove":
-                    n = st.nextToken();
-                    if(!set.isEmpty())
-                        set.remove(n);
+                    n = Integer.parseInt(st.nextToken());
+                    S &= ~(1 << n); // 0000100 -> 1111011
                     break;
                 case "check":
-                    boolean check;
-                    if (set.isEmpty())
-                        check = false;
-                    check = set.contains(st.nextToken());
-                    if (check)
-                        sb.append("1\n");
-                    else sb.append("0\n");
+                    n = Integer.parseInt(st.nextToken());
+                    sb.append((S & (1 << n)) != 0 ? 1 : 0).append("\n");
                     break;
                 case "toggle":
-                    n = st.nextToken();
-                    if (set.contains(n))
-                        set.remove(n);
-                    else set.add(n);
+                    n = Integer.parseInt(st.nextToken());
+                    S ^= (1 << n);
                     break;
                 case "all":
-                    set.clear();
-                    for (int j = 1; j <= 20; j++) {
-                        set.add(Integer.toString(j));
-                    }
+                    S = (1 << 21) - 1;
                     break;
                 case "empty":
-                    set.clear();
+                    S = 0;
                     break;
             }
         }
