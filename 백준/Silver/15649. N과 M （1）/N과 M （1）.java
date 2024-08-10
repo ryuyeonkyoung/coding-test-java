@@ -4,20 +4,23 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    public static void permute(int[] arr, int[] out, boolean[] visited, int dept) {
-        int n = arr.length;
-        if (dept == out.length) {
+    public static int N, M;
+    public static boolean[] visited;
+    public static int[] out;
+    public static void permute(int dept) {
+        if (dept == M) {
             // dept에 도달하면 out 출력
             for (int o:out) {
                 System.out.print(o + " ");
             }
             System.out.print("\n");
         } else {
-            for (int i = 0; i < arr.length; i++) {
+            for (int i = 0; i < N; i++) {
                 if (!visited[i]) {
                     visited[i] = true;
-                    out[dept] = arr[i];
-                    permute(arr, out, visited, dept + 1);
+                    out[dept] = i+1;
+                    permute(dept + 1);
+
                     visited[i] = false; // 백트래킹
                 }
             }
@@ -27,14 +30,12 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        int[] arr = new int[N];
-        boolean[] visited = new boolean[N];
-        int[] out = new int[M];
-        Arrays.setAll(arr,i -> i+1);
+        visited = new boolean[N];
+        out = new int[M];
 
-        permute(arr, out ,visited, 0);
+        permute(0);
     }
 }
