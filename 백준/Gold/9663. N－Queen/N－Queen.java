@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 public class Main {
     public static int cnt = 0;
     public static int N;
-    public static boolean[][] isEmpty;
+    public static int[] arr;
     public static void dfs (int dept) {
         int x = dept; // x의 각 좌표별로 한개씩
         if (N == dept) {
@@ -13,38 +13,24 @@ public class Main {
             return;
         }
         for (int y = 0; y < N; y++) {
-            if (isPossible(x,y)) {
-                isEmpty[x][y] = false;
+            boolean isPossible = isPossible(x,y);
+            if (isPossible) {
+                arr[x] = y;
                 dfs(dept + 1);
-                isEmpty[x][y] = true;
+                arr[x] = -1; // 값 초기화 안해도 dept가 줄어드는거 자체가 백트래킹이다.
             }
         }
     }
     public static boolean isPossible (int x, int y) {
-        int i, j;
-        //해당 점
-        if (!isEmpty[x][y])
-            return false;
-        // 세로/가로 방향에 있는지 확인
-        for (i = 0; i < N; i++) {
-            if (!isEmpty[i][y] || !isEmpty[x][i])
+        // 그동안 한걸 봐야하므로 x의 비교범위는 0부터 x 이전까지이다.
+        // y값 겹치는지 확인
+        for (int i = 0; i < x; i++) {
+            if (arr[i] == y)
                 return false;
         }
-        // 대각선 방향에 있는지 확인
-        for (i = x, j = y; i < N && j < N; i++, j++) {
-            if (!isEmpty[i][j])
-                return false;
-        }
-        for (i = x, j = y; i >= 0 && j < N; i--, j++) {
-            if (!isEmpty[i][j])
-                return false;
-        }
-        for (i = x, j = y; i < N && j >= 0; i++, j--) {
-            if (!isEmpty[i][j])
-                return false;
-        }
-        for (i = x, j = y; i >= 0 && j >= 0; i--, j--) {
-            if (!isEmpty[i][j])
+        // 대각선 방향에 있는지 확인. 차의 절댓값이 같으면 대각선 방향에 있다.
+        for (int i = 0; i < x; i++) {
+            if (Math.abs(x - i) == Math.abs(y - arr[i]))
                 return false;
         }
         return true;
@@ -53,11 +39,9 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         N = Integer.parseInt(br.readLine());
-        isEmpty = new boolean[N][N];
+        arr = new int[N];
         for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                isEmpty[i][j] = true;
-            }
+            arr[i] = -1;
         }
 
         dfs( 0);
