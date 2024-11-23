@@ -43,15 +43,20 @@ public class Main {
         int M = Integer.parseInt(st.nextToken());
         int V = Integer.parseInt(st.nextToken());
         list = new LinkedList<>();
-        visited = new boolean[N+1];
+        visited = new boolean[N+1]; // 방문리스트. 해당 정점에 방문했는지 체크하는 역할을 한다.
         for (int i = 0; i < N+1; i++) {
             visited[i] = false;
         }
 
-        // 인접리스트 만들기
+        // 리스트의 인덱스에 정점의 번호를, 값에 인접한 정점들을 저장하였다.
+        // 1과 연결된 노드가 2,4 일 때 list[1]에 2,4가 저장됨
+        
+        // 리스트 초기화
         for (int i = 0; i < N+1; i++) {
             list.add(new LinkedList<>());
         }
+
+        // 간선 정보를 읽어서 양방향 그래프로 연결
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
@@ -59,12 +64,13 @@ public class Main {
             list.get(a).add(b);
             list.get(b).add(a);
         }
+        // 정렬
         for (int i = 0; i < N + 1; i++) {
             if (!list.get(i).isEmpty())
                 Collections.sort(list.get(i));
         }
 
-        // dfs수행
+        // 실행 및 출력
         dfs(V);
         sb.append("\n");
 
