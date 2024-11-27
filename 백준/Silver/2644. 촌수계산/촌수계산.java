@@ -7,8 +7,27 @@ public class Main {
     public static Queue<Integer> q = new LinkedList<>();
     public static List<LinkedList<Integer>> list;
     public static boolean[] visited;
+    public static int[] graph;
     public static int start;
     public static int end;
+    public static int bfs (int start, int end) {
+        // 시작
+        q.offer(start);
+        visited[start] = true;
+
+        while (!q.isEmpty()) {
+            int current = q.poll();
+            if (current == end) return graph[end];
+            for (int a : list.get(current)) {
+                if (!visited[a]) {
+                    visited[a] = true;
+                    q.offer(a);
+                    graph[a] = graph[current] + 1;
+                }
+            }
+        }
+        return -1;
+    }
     public static int dfs (int n, int cnt) {
         // 1. 방문 처리
         visited[n] = true;
@@ -39,6 +58,7 @@ public class Main {
         int m = Integer.parseInt(br.readLine());
 
         visited = new boolean[n+1];
+        graph = new int[n+1];
         list = new LinkedList<>();
         for (int i = 0; i < n+1; i++) {
             list.add(new LinkedList<>());
@@ -52,6 +72,6 @@ public class Main {
             list.get(b).add(a);
         }
 
-        System.out.println(dfs(start, 0));
+        System.out.println(bfs(start, end));
     }
 }
