@@ -7,7 +7,7 @@ public class Main {
     public static Queue<Integer> q = new LinkedList<>();
     public static List<LinkedList<Integer>> list;
     public static boolean[] visited;
-    public static int[] graph;
+    public static int[] dist;
     public static int start;
     public static int end;
     public static int bfs (int start, int end) {
@@ -17,12 +17,12 @@ public class Main {
 
         while (!q.isEmpty()) {
             int current = q.poll();
-            if (current == end) return graph[end];
+            if (current == end) return dist[end];
             for (int a : list.get(current)) {
                 if (!visited[a]) {
                     visited[a] = true;
                     q.offer(a);
-                    graph[a] = graph[current] + 1;
+                    dist[a] = dist[current] + 1;
                 }
             }
         }
@@ -58,7 +58,7 @@ public class Main {
         int m = Integer.parseInt(br.readLine());
 
         visited = new boolean[n+1];
-        graph = new int[n+1];
+        dist = new int[n+1];
         list = new LinkedList<>();
         for (int i = 0; i < n+1; i++) {
             list.add(new LinkedList<>());
