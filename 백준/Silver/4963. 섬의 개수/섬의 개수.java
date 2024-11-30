@@ -7,6 +7,7 @@ import java.util.*;
 public class Main {
     public static int[][] map;
     public static boolean[][] visited;
+    // 상하좌우 및 대각선으로 이동하기 위해 벡터 이용
     public static int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
     public static int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
     public static int cnt;
@@ -21,7 +22,7 @@ public class Main {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if (nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
+            if (nx < 0 || nx >= h || ny < 0 || ny >= w) continue; // break 쓰면 안됨
             else if (!visited[nx][ny] && map[nx][ny] == 1) dfs(nx, ny);
         }
 
