@@ -1,5 +1,4 @@
 
-import java.io.FileInputStream;
 import java.util.Scanner;
 
 //2806. N-Queen
@@ -12,11 +11,10 @@ public class Solution {
 	static int N;
 	static int nQueenNum = 0;
 
-	public static boolean isQueenAttackDisable() {
-		for(int i=0; i<N; i++) {
-			for(int j=i+1; j<N; j++) {
-				if (Math.abs(i - j) == Math.abs(board[i] - board[j])) return false;
-			}
+	public static boolean canPlace(int x, int y) {
+		for(int i=0; i<x; i++) {
+			if (board[i] == y) return false;
+			if (Math.abs(i-x) == Math.abs(board[i]-y)) return false;
 		}
 		return true;
 	}
@@ -24,13 +22,12 @@ public class Solution {
 	// x좌표는 1씩 증가, y값을 겹치지 않게 저장한다.
 	public static void dfs(int x) {
 		if (x == N) {
-			if (isQueenAttackDisable())
-				nQueenNum++;
+			nQueenNum++;
 			return;
 		}
 
 		for(int y=0; y<N; y++) {
-			if (!checkY[y]) {
+			if (!checkY[y] && canPlace(x,y)) {
 				checkY[y] = true;
 
 				board[x] = y;
