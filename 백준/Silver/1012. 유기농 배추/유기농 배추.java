@@ -12,10 +12,9 @@ public class Main {
     public static boolean[][] visited;
 
     public static void dfs (int x, int y) {
-        // 방문한 곳 체크
+        // 어느 좌표에서 시작하던 상하좌우로 움직이기 때문에 최솟값이 나옴
         visited[x][y] = true;
 
-        // 모여있는 배추 방문
         if (x > 0)
             if (field[x-1][y] == 1 && !visited[x-1][y])
                 dfs(x-1, y);
@@ -29,12 +28,10 @@ public class Main {
             if (field[x][y+1] == 1 && !visited[x][y+1])
                 dfs(x, y+1);
     }
-    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        // 입력 및 연산
         int T = Integer.parseInt(br.readLine());
         for (int i = 0; i < T; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -42,11 +39,15 @@ public class Main {
             N = Integer.parseInt(st.nextToken());
             K = Integer.parseInt(st.nextToken());
             count = 0;
-
-            // 자바 배열은 자료형에 따라 기본값으로 자동 초기화된다.
-            // int: 0, boolean: false, 참조형: null
+            // 배열들 초기화
             field = new int[M][N];
             visited = new boolean[M][N];
+            for (int j = 0; j < M; j++) {
+                for (int k = 0; k < N; k++) {
+                    field[j][k] = 0;
+                    visited[j][k] = false;
+                }
+            }
 
             for (int j = 0; j < K; j++) {
                 st = new StringTokenizer(br.readLine());
@@ -59,7 +60,7 @@ public class Main {
             for (int j = 0; j < M; j++) {
                 for (int k = 0; k < N; k++) {
                     if (field[j][k] == 1 && !visited[j][k]) {
-                       // System.out.print(j + "," + k + "\n");
+//                        System.out.print(j + "," + k + "\n");
                         dfs(j,k);
                         count++;
                     }
@@ -69,7 +70,6 @@ public class Main {
             sb.append(count).append("\n");
         }
 
-        // 출력
         System.out.println(sb);
     }
 }
