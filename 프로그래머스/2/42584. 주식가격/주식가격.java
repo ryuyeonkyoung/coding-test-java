@@ -3,22 +3,17 @@ class Solution {
         int length = prices.length;
         int[] answer = new int[length];
         
+        // O(n^2)
+        // flag 및 if-else 문 필요 없음
         for (int i = 0; i < prices.length; i++) {
-            // 중간에 더 작은 수가 나타나면 길이 측정
-            boolean flag = false;
             for (int j = i + 1; j < length; j++) {
+                answer[i]++;
                 if (prices[i] > prices[j]) {
-                    flag = true;
-                    answer[i] = j - i;
                     break;
                 }
             }
-            // 마지막까지 작은 수가 없다면 마지막까지의 길이 측정
-            if (!flag) {
-                answer[i] = length - 1 - i;
-            }
         }
-
+        
         return answer;
     }
 }
